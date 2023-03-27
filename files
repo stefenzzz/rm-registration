@@ -1,0 +1,108 @@
+dont forget to check the field name in ultimate member forms
+
+
+enqueue script
+ // register rm-register js file
+    wp_enqueue_script(
+      'rm-signup',
+      get_stylesheet_directory_uri() . '/js/rm-register.js',
+      array('jquery'),
+      '1.0',
+      true
+    );
+
+    $registrationObj = [
+      'nonce' => wp_create_nonce( 'rm-registration-obj' ),
+      'ajaxURL' => admin_url( 'admin-ajax.php' ),
+    ];
+    wp_localize_script( 'rm-signup', 'registrationObj', $registrationObj ); 
+    
+    
+
+extra.js
+
+		//toggle hide pop up
+		$('.rm-close-modal').click(function(){
+			$(this).parents('.rm-popup-container').toggleClass('hide');
+		});
+
+		// toggle registration form
+		$('.open-registration-form').click(function(){
+			$('.rm-registration-form').parents('.rm-popup-container').toggleClass('hide');
+		});
+    
+    
+    
+functions.php
+
+// include rm-register php file
+include_once( plugin_dir_path( __FILE__ ) . 'inc/rm-register.php' );
+    
+       
+    
+style.css
+
+    .rm-popup-container{
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: grid;
+        align-items: center;
+        height: 100vh;
+        z-index: 2;
+        width: 100vw;
+        background-color: rgba(000,000,000,.3);
+    }
+    .rm-registration-form{
+
+        font-family: 'Poppins Regular';
+        max-width: 450px;
+        width: 100%;
+        margin: 0 auto;
+        height: fit-content;
+        padding:20px;
+        border-radius: 10px;
+        background-color: #fff;
+    }
+    .rm-registration-form h4{
+        color:#202020;
+    }
+
+    .rm-registration-form .field-container{
+       margin:10px 0;
+       max-width: 300px ;
+    }
+
+    .rm-registration-form input[type="text"],
+    .rm-registration-form input[type="email"],
+    .rm-registration-form input[type="password"]{
+        border:none;
+        border-bottom:1px solid #d3d3d3;
+        outline: none;
+        color: #666666;
+        padding: 10px 5px 2px;
+    }
+    .rm-registration-form span{
+        color:red;
+    }
+    .rm-registration-form .rm-submit-registration{
+        margin-top:20px;
+    }
+    .rm-close-modal{
+        display: grid;
+        margin-left: auto;
+        padding: 5px 12px;
+        background-color: #b72025;
+        color: #fff !important;
+        font-weight: 700;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 30px;
+        width: 30px;
+        place-content: center;
+    }
+
+    .hide{
+        display: none;
+    }
